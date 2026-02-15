@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evamiss Çiçek | Konya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        /* --- TASARIM AYARLARI --- */
+        :root {
+            --primary-color: #C08261; /* Toprak tonu */
+            --bg-color: #F9F7F2; /* Krem */
+            --whatsapp-green: #25D366;
+            --text-dark: #2C3E50;
+        }
+
+        html { scroll-behavior: smooth; } /* Yumuşak Kaydırma */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Lato', sans-serif; 
+            color: var(--text-dark); 
+            line-height: 1.6; 
+            background-color: var(--bg-color); 
+            overflow-x: hidden; /* Yatay taşmayı engelle */
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--text-dark); }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        /* HEADER */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 5%;
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        /* Aşağı kaydırınca header küçülsün efekti için JS ile eklenecek class */
+        header.scrolled { padding: 0.5rem 5%; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--text-dark); letter-spacing: 2px; text-transform: uppercase; }
+        
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 2rem; }
+        nav ul li a { font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; position: relative; }
+        /* Menü Alt Çizgi Animasyonu */
+        nav ul li a::after {
+            content: ''; display: block; width: 0; height: 2px; background: var(--primary-color); transition: width .3s;
+        }
+        nav ul li a:hover::after { width: 100%; }
+
+        .social-icons a {
+            font-size: 1.4rem;
+            margin-left: 15px;
+            color: #333;
+            transition: transform 0.3s;
+        }
+        .social-icons a:hover { color: var(--primary-color); transform: scale(1.2); }
+
+        /* HERO BÖLÜMÜ */
+        .hero {
+            height: 100vh;
+            background: url('wall.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-end; 
+            align-items: center; 
+            text-align: center; 
+            padding-bottom: 100px;
+            /* Parallax efekti: Resim arkada sabit kalsın */
+            background-attachment: fixed; 
+        }
+        
+        .hero p { 
+            font-size: 1.5rem; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            margin-bottom: 2rem; 
+            color: #5d4037; 
+            font-weight: bold;
+            text-shadow: 0px 0px 15px rgba(255,255,255,0.9);
+            animation: fadeInUp 1.5s ease-out; /* Giriş Animasyonu */
+        }
+
+        /* Giriş Animasyonu Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CTA BUTON */
+        .btn-whatsapp {
+            padding: 15px 40px; 
+            background-color: var(--whatsapp-green); 
+            color: white;
+            border-radius: 50px;
+            font-weight: bold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            display: inline-flex; align-items: center; gap: 10px;
+            transition: 0.3s;
+            animation: fadeInUp 1.8s ease-out;
+        }
+        .btn-whatsapp:hover { background-color: #128C7E; transform: translateY(-5px) scale(1.05); }
+
+        /* SABİT WHATSAPP BUTONU (Pulse Efekti) */
+        .float-wa {
+            position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px;
+            background-color: var(--whatsapp-green); color: #FFF; border-radius: 50px;
+            text-align: center; font-size: 30px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        .float-wa:hover { background-color: #128C7E; animation: none; transform: scale(1.1); }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* BÖLÜMLER GENEL */
+        section { padding: 5rem 10%; }
+
+        /* HAKKIMIZDA */
+        .about-container { display: flex; align-items: center; gap: 4rem; }
+        .about-text { flex: 1; }
+        .about-text p { margin-bottom: 1.5rem; font-size: 1.05rem; color: #555; text-align: justify; }
+        .about-img { flex: 1; position: relative; }
+        .about-img img { 
+            width: 100%; border-radius: 10px; 
+            box-shadow: 20px 20px 0px var(--primary-color); 
+            transition: 0.5s;
+        }
+        /* Resme gelince gölge hareket etsin */
+        .about-img:hover img { transform: translate(5px, 5px); box-shadow: 10px 10px 0px var(--primary-color); }
+        
+        .text-link {
+            color: var(--primary-color); font-weight: bold; text-decoration: underline;
+        }
+        .text-link:hover { color: #a06040; }
+
+        /* GALERİ GRID */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
+            margin-top: 2rem;
+        }
+        .card { 
+            background: white; border-radius: 8px; overflow: hidden; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
+            transition: all 0.4s ease;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        
+        .card img { width: 100%; height: 400px; object-fit: cover; transition: 0.5s; }
+        .card:hover img { transform: scale(1.05); } /* Resim hafif yakınlaşsın */
+
+        .card-info { padding: 1.5rem; text-align: center; }
+        .card-info h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .card-info p { font-size: 0.9rem; color: #666; margin-bottom: 1rem; }
+        .btn-small { font-size: 0.8rem; text-decoration: underline; color: var(--primary-color); font-weight: bold;}
+
+        /* FOOTER */
+        footer { background-color: #222; color: #aaa; padding: 3rem; text-align: center; font-size: 0.9rem; }
+        footer a { color: #ddd; transition: 0.3s; }
+        footer a:hover { color: var(--primary-color); }
+        .footer-address { margin-top: 10px; display: inline-block; border-bottom: 1px dashed #555; padding-bottom: 2px; }
+
+        /* MOBİL UYUMLULUK */
+        @media (max-width: 768px) {
+            .hero { background-position: center; }
+            nav { display: none; }
+            .logo { margin-right: auto; }
+            .social-icons { margin-left: auto; }
+            .about-container { flex-direction: column; }
+            .about-img img { box-shadow: 10px 10px 0px var(--primary-color); }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="logo">EVAMISS ÇİÇEK</div>
+        <nav>
+            <ul>
+                <li><a href="#about">Hakkımızda</a></li>
+                <li><a href="#gallery">Koleksiyon</a></li>
+                <li><a href="#contact">İletişim</a></li>
+            </ul>
+        </nav>
+        
+        <div class="social-icons">
+            <a href="https://www.instagram.com/evamiss_cicek/" target="_blank" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.tiktok.com/@evamiss_cicek?_r=1&_t=ZS-93NG69H75Nt" target="_blank" title="TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <p>Konya | Özel Tasarım Çiçekçilik</p>
+        
+        <a href="https://wa.me/905073036707?text=Merhaba,%20çiçek%20siparişi%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> WhatsApp ile İletişime Geç
+        </a>
+    </section>
+
+    <section id="about" style="background-color: white;">
+        <div class="about-container">
+            <div class="about-img" data-aos="fade-right" data-aos-duration="1000">
+                <img src="foto6.jpg" alt="Evamiss Çiçek">
+            </div>
+            <div class="about-text" data-aos="fade-left" data-aos-duration="1000">
+                <h2>Hakkımızda</h2>
+                <br>
+                <p>
+                    Konya'nın kalbinde yer alan Evamiss Çiçek, sevdiklerinizi mutlu etmenin ve duygularınızı ifade etmenin en zarif yolunu sunuyor. 
+                    Çiçeklerin sadece bir hediye değil, kelimelere dökülemeyen hislerin bir yansıması olduğuna inanıyoruz.
+                </p>
+                <p>
+                    Kalite, tazelik ve güven bizim için her şeyden önce gelir. En taze mevsim çiçeklerini özenle seçiyor, her bir buketi 
+                    ustalıkla ve sevgiyle hazırlıyoruz. Özel günlerinizde, kutlamalarınızda veya sadece içinizden geldiği anlarda, 
+                    hayalinizdeki aranjmanı gerçeğe dönüştürmek için buradayız.
+                </p>
+                <p>
+                    Siparişlerinizin zamanında ve kusursuz bir şekilde ulaşması, bizim en büyük önceliğimizdir. 
+                    Siz duygularınızı seçin, gerisini profesyonel ekibimize ve doğanın güzelliğine bırakın.
+                </p>
+                <br>
+                <p style="font-weight: bold; color: var(--primary-color);">
+                    📍 <a href="https://www.google.com/maps/search/?api=1&query=Alpaslan+mahallesi+Meram+fen+lisesi+caddesi+No+15C+Konya" target="_blank" class="text-link">Alpaslan Mh. Meram Fen Lisesi Cd. No: 15C</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 style="text-align: center;" data-aos="fade-up">Koleksiyonumuz</h2>
+        <div class="gallery-grid">
+            
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <img src="foto1.jpg" alt="Beyaz Gül Buketi">
+                <div class="card-info">
+                    <h3>İstem & Nişan Buketleri</h3>
+                    <p>En özel gününüz için zarif beyaz güller.</p>
+                    <a href="https://wa.me/905073036707" class="btn-small">Fiyat Sor →</a>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <img src="foto2.jpg" alt="Karışık Buket">
+                <div class="card-info">
+                    <h3>Mevsim Buketleri</h3>
+                    <p>Rengarenk ve taze mevsim çiçekleri.</p>
+                    <a href="https://wa.me/905073036707" class="btn-small">Fiyat Sor →</a>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <img src="foto5.jpg" alt="Kutu Gül">
+                <div class="card-info">
+                    <h3>Kutu Güller</h3>
+                    <p>Modern ve şık kutu tasarımları.</p>
+                    <a href="https://wa.me/905073036707" class="btn-small">Fiyat Sor →</a>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <img src="foto4.jpg" alt="Papatya Buketi">
+                <div class="card-info">
+                    <h3>Doğal Papatyalar</h3>
+                    <p>Sadeliği sevenler için en doğal tercih.</p>
+                    <a href="https://wa.me/905073036707" class="btn-small">Fiyat Sor →</a>
+                </div>
+            </div>
+            
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <img src="foto7.jpg" alt="Özel Tasarım">
+                <div class="card-info">
+                    <h3>Butik Tasarımlar</h3>
+                    <p>Siyahın asaleti ve kırmızının tutkusu.</p>
+                    <a href="https://wa.me/905073036707" class="btn-small">Fiyat Sor →</a>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <img src="foto3.jpg" alt="Balonlar">
+                <div class="card-info">
+                    <h3>Organizasyon & Süsleme</h3>
+                    <p>Kutlamalarınız için balon ve süsleme.</p>
+                    <a href="https://wa.me/905073036707" class="btn-small">Fiyat Sor →</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="contact">
+        <h3>İLETİŞİM</h3>
+        <br>
+        
+        <p>
+            <i class="fas fa-map-marker-alt"></i> 
+            <a href="https://www.google.com/maps/search/?api=1&query=Alpaslan+mahallesi+Meram+fen+lisesi+caddesi+No+15C+Konya" target="_blank" class="footer-address">
+                Alpaslan mh. Meram fenlisesi cd. No 15C, Konya
+            </a>
+        </p>
+        
+        <p style="margin-top: 10px;"><i class="fas fa-phone"></i> <a href="tel:+905073036707">0507 303 67 07</a></p>
+        <p style="margin-top: 10px;"><i class="fas fa-envelope"></i> <a href="mailto:evamisscicek@gmail.com">evamisscicek@gmail.com</a></p>
+        
+        <div style="margin-top: 20px; font-size: 1.5rem;">
+            <a href="https://www.instagram.com/evamiss_cicek/" target="_blank" style="margin: 0 10px;"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@evamiss_cicek?_r=1&_t=ZS-93NG69H75Nt" target="_blank" style="margin: 0 10px;"><i class="fab fa-tiktok"></i></a>
+        </div>
+
+        <br>
+        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 20px;">© 2026 Evamiss Çiçek</p>
+    </footer>
+
+    <a href="https://wa.me/905073036707" class="float-wa" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Animasyonları Başlat
+        AOS.init({
+            once: true, // Animasyon sadece bir kere çalışsın (sürekli in-çık yapmasın)
+            offset: 100 // Tetikleme mesafesi
+        });
+
+        // Header Scroll Efekti
+        window.addEventListener('scroll', function() {
+            var header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
